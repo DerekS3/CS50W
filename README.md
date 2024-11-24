@@ -3,7 +3,7 @@
 This repository contains projects I've completed as part of the Harvard/edX CS50 Web Programming with Python and JavaScript course. The course focuses on building full-stack web applications using Python, JavaScript, HTML, CSS, and various web development tools and frameworks.
 
 ## Project 1: Commerce
-An online auction platform where users can list items for sale, place bids, add items to their watchlist, and manage active auctions. Built using Django with user authentication, SQLite for the backend, and Bootstrap for frontend styling.
+An online auction platform where users can list items for sale, place bids, leave comments, add items to their watchlist, and manage active auctions. Built using Django with user authentication, SQLite for the backend, and Bootstrap for frontend styling.
 
 [Project 3: Mail
 A simple email client that allows users to send, receive, and organize emails. Uses JavaScript for frontend interactivity and Django for backend email management.
