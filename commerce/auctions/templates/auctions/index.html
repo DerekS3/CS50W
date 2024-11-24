@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>{{ title }}</h2>
+
+    {% if listings %}
+    
+        {% for listing in listings %}
+            <div class="form-control preview-listing-container">
+                <img src="{{ listing.image_url }}" alt="{{ listing.title }}" class="preview-listing-image">
+                <div class="preview-listing-details">
+                    <h4><a href="{% url 'listing_view' listing.id %}">{{ listing.title }}</a></h4>
+                    <h5>Price: £{{ listing.current_bid }}</h5>
+                    <p>{{ listing.description }}</p>
+                    <small>Created {{ listing.created_at }} by <a href="{% url 'user_listings' listing.owner.username %}"><strong>{{ listing.owner }}</strong></a></li></small>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <p>You are not watching any items yet.</p>
+    {% endif %}
+
+{% endblock %}
