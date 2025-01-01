@@ -2,4 +2,15 @@
 
 {% block body %}
     <h2>Welcome to Network!</h2>
+    <div>
+        {% if user.is_authenticated %}
+            <p> Hello, {{ user.username }}. </p>
+        {% else %}
+            <p>
+                <a href="{% url 'login' %}">Sign in</a> or 
+                <a href="{% url 'register' %}">register</a> 
+                to begin posting.
+            </p>
+        {% endif %}
+    </div>
 {% endblock %}

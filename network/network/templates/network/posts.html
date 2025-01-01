@@ -2,4 +2,18 @@
 
 {% block body %}
     <h2>All Posts</h2>
+
+    <div class="border rounded m-2">
+        <div class="m-4">
+            <h4>New Post</h4>
+            <form action="{% url 'posts' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <textarea autofocus class="form-control" name="content"></textarea>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Post">
+            </form>
+        </div>
+    </div>
+
 {% endblock %}
