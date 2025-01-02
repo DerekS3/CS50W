@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Post, Like, Follower
 
 
 def index(request):
@@ -70,3 +70,19 @@ def user_profile(request):
 
 def following_view(request):
     return render(request, "network/following.html")
+
+def submit_post(request):
+    if request.method == 'POST':
+        content = request.POST.get('content')
+
+        if content:
+            post = Post(author=request.user, content=content)
+            post.save()
+            return JsonResponse({"message": "Post successful."}, status=201)
+        else:
+            return JsonResponse({"error": "Post failed."}, status=400)
+        
+
+def get_posts(request):
+    posts = Posts.objects.all().order_by('-created_at')
+    return JsonResponse([post.serialize() for post in posts], safe=False)
