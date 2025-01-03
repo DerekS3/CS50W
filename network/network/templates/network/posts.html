@@ -6,10 +6,9 @@
 
     <div class="border rounded m-2 p-4">
         <h4>New Post</h4>
-        <form action="{% url 'posts' %}" method="post">
-            {% csrf_token %}
+        <form id="new-post-form">
             <div class="form-group">
-                <textarea autofocus class="form-control" name="content"></textarea>
+                <textarea autofocus class="form-control" id="post-content"></textarea>
             </div>
             <input class="btn btn-primary" type="submit" value="Post">
         </form>

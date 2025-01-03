@@ -1,8 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from .models import User, Post, Like, Follower
 
@@ -71,18 +73,29 @@ def user_profile(request):
 def following_view(request):
     return render(request, "network/following.html")
 
-def submit_post(request):
+
+@csrf_exempt
+def posts(request):
+    # Handle POST request to create a new post
     if request.method == 'POST':
-        content = request.POST.get('content')
+        data = json.loads(request.body)  # Get the post data from request
+        content = data.get('content', '')
 
-        if content:
-            post = Post(author=request.user, content=content)
-            post.save()
-            return JsonResponse({"message": "Post successful."}, status=201)
-        else:
-            return JsonResponse({"error": "Post failed."}, status=400)
-        
+        # Validate content
+        if content == '':
+            return JsonResponse({"error": "Content cannot be empty."}, status=400)
 
-def get_posts(request):
-    posts = Posts.objects.all().order_by('-created_at')
-    return JsonResponse([post.serialize() for post in posts], safe=False)
+        # Create a new post
+        post = Post(author=request.user, content=content)
+        post.save()
+
+        return JsonResponse({"message": "Post created successfully."}, status=201)
+
+    # Handle GET request to retrieve posts
+    elif request.method == 'GET':
+        posts = Post.objects.all().order_by('-created_at')
+        posts_data = [post.serialize() for post in posts]
+        return JsonResponse(posts_data, safe=False)
+
+    # Handle unsupported methods
+    return JsonResponse({"error": "GET or POST method required."}, status=405)
